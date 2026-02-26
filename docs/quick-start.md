@@ -202,7 +202,7 @@ flowchart TB
 
 Traefik receives all incoming HTTPS traffic and routes it to the correct service based on the domain name in the request. It discovers which services exist by querying the Docker engine through the socket proxy. The dashboard also reads container information through the socket proxy to display your system status.
 
-### The socket proxy: Your Security Gatekeeper
+### The Socket Proxy: Your Security Gatekeeper
 
 The Docker socket (`/var/run/docker.sock`) is the master key to your entire container environment. Any service with direct socket access can create containers, delete volumes, or even escape to the host operating system. That is a serious security risk.
 
