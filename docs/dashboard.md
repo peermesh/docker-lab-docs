@@ -584,7 +584,7 @@ All dashboard behavior is controlled through environment variables. Set these in
 
 | Variable | Description | Default |
 |----------|-------------|---------|
-| `DOCKER_HOST` | Docker socket proxy URL | `http://socket-proxy:2375` |
+| `DOCKER_HOST` | Socket proxy URL | `http://socket-proxy:2375` |
 | `SYNC_SCRIPT` | Path to custom deployment sync script | (uses `docker compose pull`) |
 
 ### Deprecated Variables

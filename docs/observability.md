@@ -16,7 +16,7 @@ Before we look at the tools, it helps to understand what observability actually 
 
 In Docker Lab specifically, observability serves three purposes:
 
-- **Health verification** -- Confirming that your foundation services (Traefik, socket proxy, dashboard) and any application services are running and responding correctly.
+- **Health verification** -- Confirming that your foundation stack (Traefik, socket proxy, dashboard) and any application services are running and responding correctly.
 - **Resource awareness** -- Understanding how much CPU, memory, and disk your containers consume, so you can right-size your VPS and catch resource exhaustion before it causes outages.
 - **Promotion evidence** -- Providing the data that Docker Lab's promotion scorecard uses to decide whether your deployment has outgrown its current monitoring tier.
 
@@ -90,7 +90,7 @@ Together, these two tools answer the fundamental questions: "Are my services ali
 
 ### Setting Up Observability Lite
 
-The lite tier is a compose overlay that you activate alongside your base `docker-compose.yml`. To bring it up:
+The lite tier is a compose profile that you activate alongside your base `docker-compose.yml`. To bring it up:
 
 ```bash
 docker compose \
@@ -219,7 +219,7 @@ docker compose \
   down
 ```
 
-Then bring up the base stack alone:
+Then bring up the foundation stack alone:
 
 ```bash
 docker compose -f docker-compose.yml up -d
@@ -231,7 +231,7 @@ Your monitoring data persists in named volumes (`pmdl_uptime_kuma_data`, `pmdl_n
 
 The enterprise tier provides deep metrics collection, custom dashboards, and centralized log aggregation. It is designed for deployments that have outgrown what Netdata and Uptime Kuma can offer -- typically because you need longer retention, custom queries, or structured log search.
 
-**Current status: The enterprise tier is on hold.** The compose overlay and configuration files are ready to deploy, but the promotion path has not been exercised in production yet. The scorecard automation works, but no deployment has triggered a promotion to date. What follows describes the tier as designed and tested in development.
+**Current status: The enterprise tier is on hold.** The compose profile and configuration files are ready to deploy, but the promotion path has not been exercised in production yet. The scorecard automation works, but no deployment has triggered a promotion to date. What follows describes the tier as designed and tested in development.
 
 ### What the Enterprise Tier Includes
 
@@ -289,7 +289,7 @@ Prometheus pulls metrics from services that expose them. Loki receives logs push
 
 ### Enterprise Tier Setup
 
-Activating the enterprise tier follows the same overlay pattern as the lite tier:
+Activating the enterprise tier follows the same compose profile pattern as the lite tier:
 
 ```bash
 docker compose \

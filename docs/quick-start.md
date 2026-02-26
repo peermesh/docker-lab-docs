@@ -183,7 +183,7 @@ The username is `admin` by default. After logging in, you will see the Docker La
 
 You just deployed three services that form the foundation of every Docker Lab deployment. Here is what each one does and why it exists.
 
-The following diagram shows how the three foundation services connect:
+The following diagram shows how the three foundation stack components connect:
 
 ```mermaid
 flowchart TB
@@ -202,7 +202,7 @@ flowchart TB
 
 Traefik receives all incoming HTTPS traffic and routes it to the correct service based on the domain name in the request. It discovers which services exist by querying the Docker engine through the socket proxy. The dashboard also reads container information through the socket proxy to display your system status.
 
-### The Socket Proxy: Your Security Gatekeeper
+### The socket proxy: Your Security Gatekeeper
 
 The Docker socket (`/var/run/docker.sock`) is the master key to your entire container environment. Any service with direct socket access can create containers, delete volumes, or even escape to the host operating system. That is a serious security risk.
 

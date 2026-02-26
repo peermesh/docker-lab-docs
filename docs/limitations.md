@@ -82,7 +82,7 @@ Docker Lab does not monitor load and automatically spin up additional container 
 
 ### Traefik v2 (Not v3)
 
-Docker Lab currently ships with Traefik v2.11 instead of the latest Traefik v3. This is a deliberate, documented decision recorded in [ADR-0001](../sub-repos/docker-lab/docs/decisions/0001-traefik-reverse-proxy.md).
+Docker Lab currently ships with Traefik v2.11 instead of the latest Traefik v3. This is a deliberate, documented decision recorded in [ADR-0001](https://github.com/peermesh/docker-lab/blob/main/docs/decisions/0001-traefik-reverse-proxy.md).
 
 The reason is a concrete compatibility issue: **Traefik v3.2 is incompatible with Docker Engine 29.x** due to a Docker API version mismatch. Traefik v3.2's Docker client uses API v1.24, but Docker Engine 29.x requires API v1.44 or higher. The symptom is that Traefik cannot communicate with the Docker socket proxy.
 
@@ -117,7 +117,7 @@ Docker Lab gives you a strong starting point and operational tooling, but it doe
 
 ## Known Issues and Gotchas
 
-Beyond deliberate limitations, Docker Lab has documented operational gotchas -- things that work but require specific knowledge to avoid pitfalls. The project maintains a comprehensive [Gotchas document](../sub-repos/docker-lab/docs/GOTCHAS.md) with 13 entries. Here are the issues most likely to affect you.
+Beyond deliberate limitations, Docker Lab has documented operational gotchas -- things that work but require specific knowledge to avoid pitfalls. The project maintains a comprehensive [Gotchas document](https://github.com/peermesh/docker-lab/blob/main/docs/GOTCHAS.md) with 13 entries. Here are the issues most likely to affect you.
 
 ### File Mount Confusion
 
@@ -249,13 +249,13 @@ Docker Lab is an open-source project, and contributions are welcome. Here is how
 
 If you find a bug, hit an undocumented gotcha, or have a feature request:
 
-1. Check the existing [Gotchas document](../sub-repos/docker-lab/docs/GOTCHAS.md) to see if your issue is already documented
+1. Check the existing [Gotchas document](https://github.com/peermesh/docker-lab/blob/main/docs/GOTCHAS.md) to see if your issue is already documented
 2. Open an issue on the [Docker Lab GitHub repository](https://github.com/peermesh/docker-lab)
 3. Include your Docker Engine version, host OS, and the relevant compose configuration
 
 ### Contribute Code
 
-The [CONTRIBUTING.md](../sub-repos/docker-lab/CONTRIBUTING.md) file in the repository covers:
+The [CONTRIBUTING.md](https://github.com/peermesh/docker-lab/blob/main/CONTRIBUTING.md) file in the repository covers:
 
 - Development setup and local testing
 - Validation commands to run before submitting changes
@@ -264,7 +264,7 @@ The [CONTRIBUTING.md](../sub-repos/docker-lab/CONTRIBUTING.md) file in the repos
 
 ### Good First Issues
 
-The repository maintains a [Good First Issues backlog](../sub-repos/docker-lab/docs/community/GOOD-FIRST-ISSUES.md) with tasks specifically designed for new contributors. These are well-scoped, clearly described, and have mentoring support available.
+The repository maintains a [Good First Issues backlog](https://github.com/peermesh/docker-lab/blob/main/docs/community/GOOD-FIRST-ISSUES.md) with tasks specifically designed for new contributors. These are well-scoped, clearly described, and have mentoring support available.
 
 ### Share Your Experience
 
@@ -280,4 +280,4 @@ If you deploy Docker Lab in a new environment, on a new cloud provider, or with 
 
 ## Next Steps
 
-You have now seen the full picture of Docker Lab -- its capabilities, its boundaries, and its direction. In the [Reference chapter](./chapter-14-reference.md), you will find consolidated quick-reference material: configuration variables, CLI commands, file structure maps, and other lookup tables you will reach for during day-to-day operations.
+You have now seen the full picture of Docker Lab -- its capabilities, its boundaries, and its direction. In the [Reference chapter](./reference.md), you will find consolidated quick-reference material: configuration variables, CLI commands, file structure maps, and other lookup tables you will reach for during day-to-day operations.

@@ -1043,7 +1043,7 @@ This way, even if the project directory is accidentally overwritten during a dep
 
 ## Common Gotchas
 
-**DNS not propagated before deployment.** If you start Docker Lab before DNS records resolve to your VPS IP, Let's Encrypt challenges fail and Traefik serves self-signed certificates. Always verify DNS propagation with `dig +short yourdomain.com` before deploying. If you already deployed too early, fix the DNS, then restart Traefik with `docker compose restart traefik` to trigger a new certificate request.
+**DNS not propagated before deployment.** If you start Docker Lab before DNS records resolve to your VPS IP, Let's Encrypt challenges fail and Traefik serves self-signed certificates. Always verify DNS propagation with `dig +short yourdomain.com` before deploying. If you already deployed too early, fix the DNS, then restart Traefik with `docker compose restart Traefik` to trigger a new certificate request.
 
 **Skipping the staging promotion.** Attempting to promote directly from dev to production fails with a policy violation. The error message tells you exactly which promotion path is required. If you genuinely need to bypass staging for an emergency fix, use `--allow-promotion-bypass` -- but the bypass is recorded in the evidence bundle, so there is always a traceable reason.
 

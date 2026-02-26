@@ -127,7 +127,7 @@ flowchart TB
 
 This separation gives you two independent control planes. You change infrastructure (upgrade server size, add DNS entries, modify firewall rules) through OpenTofu. You change what runs on that infrastructure (deploy new services, update configurations, manage backups) through Docker Lab. Neither depends on the other at runtime.
 
-You do not need OpenTofu to use Docker Lab. If you prefer to provision your VPS manually through your provider's web console, that works fine. OpenTofu automates the process and makes it reproducible, but it is optional. We cover both paths in [Chapter 9: Deployment](./09-deployment.md).
+You do not need OpenTofu to use Docker Lab. If you prefer to provision your VPS manually through your provider's web console, that works fine. OpenTofu automates the process and makes it reproducible, but it is optional. We cover both paths in [the Deployment chapter](./deployment.md).
 
 ## Where Docker Lab Stands Today
 
@@ -137,7 +137,7 @@ Honesty matters. Docker Lab is a real product at a real stage of development, an
 
 - The foundation stack (Traefik reverse proxy, socket proxy, network isolation, secrets management) is stable and deployed on a live VPS
 - Five database profiles (PostgreSQL, MySQL, MongoDB, Redis, MinIO) work as composable modules
-- The security baseline passes internal audit: non-root containers, Docker socket protection, four-network isolation, TLS everywhere, rate limiting, security headers
+- The security baseline meets production standards: non-root containers, Docker socket protection, four-network isolation, TLS everywhere, rate limiting, security headers
 - The dashboard provides real-time container monitoring with session-based authentication
 - Automated backup with encrypted off-site sync is implemented
 - The module system supports custom service integration with manifest-driven lifecycle management
@@ -184,7 +184,7 @@ This manual follows a curriculum that builds from concepts to deployment to oper
 | Chapter | Title | What You Will Learn |
 |---------|-------|---------------------|
 | **1** | Introduction (you are here) | What Docker Lab is, why it exists, who it is for |
-| **2** | Core Concepts | The mental models behind Docker Lab: tiers, profiles, modules, networks |
+| **2** | Core Concepts | The mental models behind Docker Lab: tiers, compose profiles, modules, networks |
 | **3** | The Foundation Stack | How Traefik, the socket proxy, and network isolation work together |
 | **4** | Profiles and Modules | Adding databases and services as composable building blocks |
 | **5** | Security Architecture | Network isolation, secret management, container hardening, and why each matters |
@@ -210,4 +210,4 @@ You can read the manual cover to cover for a complete education, or jump to the 
 
 ## Next Steps
 
-In [Chapter 2: Core Concepts](./02-core-concepts.md), we explore the mental models that make Docker Lab work -- the four-tier architecture, compose profiles, the module system, and the network topology. Understanding these concepts is essential before you start configuring and deploying. Once you have the mental model, everything else in this manual builds on it naturally.
+In [the Concepts chapter](./concepts.md), we explore the mental models that make Docker Lab work -- the four-tier architecture, compose profiles, the module system, and the network topology. Understanding these concepts is essential before you start configuring and deploying. Once you have the mental model, everything else in this manual builds on it naturally.

@@ -39,7 +39,7 @@ The Docker socket (`/var/run/docker.sock`) is the master key to your entire cont
 
 Traefik needs to talk to Docker to discover your services. It reads container labels to figure out which domain names should route to which containers. But Traefik does not need the master key -- it only needs to read the building directory. That is exactly what the socket proxy provides: a restricted pass that allows reading container information while blocking every write operation.
 
-### How the Socket Proxy Works
+### How the socket proxy Works
 
 The socket proxy is a lightweight container based on [tecnativa/docker-socket-proxy](https://github.com/Tecnativa/docker-socket-proxy). It sits between your services and the Docker socket, acting as a filtering gateway built on HAProxy. Every Docker API call passes through it, and the proxy checks each call against a whitelist of allowed endpoints.
 
@@ -66,7 +66,7 @@ flowchart LR
 
 When Traefik sends a `GET /containers` request, the proxy passes it through to the Docker engine. When anything sends a `POST` request to create or modify a container, the proxy blocks it. The result: if Traefik is ever compromised, the attacker gets a read-only view of your containers -- not the master key to your host.
 
-### Socket Proxy Configuration
+### socket proxy Configuration
 
 Here is the actual socket proxy configuration from Docker Lab's `docker-compose.yml`:
 
@@ -145,9 +145,9 @@ networks:
 
 The `internal: true` flag is critical. It means containers on this network cannot reach the internet and the internet cannot reach them. Only the socket proxy, Traefik, and the dashboard are connected to this network. Application containers, databases, and everything else are completely isolated from the Docker API.
 
-### Common Gotchas: Socket Proxy
+### Common Gotchas: socket proxy
 
-#### NEVER Set read_only on the Socket Proxy
+#### NEVER Set read_only on the socket proxy
 
 This is the single most important gotcha in the entire foundation stack. The `tecnativa/docker-socket-proxy` image generates its `haproxy.cfg` configuration file from a template (`haproxy.cfg.template`) at container startup. Both the template and the generated config live in `/usr/local/etc/haproxy/`.
 

@@ -66,7 +66,7 @@ Setting up multi-instance management takes three steps: prepare the remote serve
 
 The remote server must meet two requirements:
 
-1. Docker Lab Dashboard is running and accessible via a URL (for example, `https://staging.dockerlab.example.com`)
+1. Docker Lab dashboard is running and accessible via a URL (for example, `https://staging.example.com`)
 2. The remote dashboard uses the **same password** as your primary dashboard (configured via `DOCKERLAB_PASSWORD`)
 
 The shared password is the foundation of instance-to-instance authentication. Both dashboards must know the same secret to communicate.
@@ -240,7 +240,7 @@ You run a production server and a staging server. You want to monitor both from 
 **On the staging server**, ensure the dashboard is running and accessible:
 
 ```bash
-$ curl -I https://staging.dockerlab.example.com/health
+$ curl -I https://staging.example.com/health
 HTTP/2 200
 ```
 
@@ -261,7 +261,7 @@ DOCKERLAB_PASSWORD=your-shared-secret-here
 2. Go to Instances
 3. Click "Add Instance"
 4. Name: "Staging Server"
-5. URL: `https://staging.dockerlab.example.com`
+5. URL: `https://staging.example.com`
 6. Click "Register"
 
 You now see both servers on one page. When you deploy a new feature to staging, you can trigger the sync from production and watch the containers restart in real time.
@@ -274,11 +274,11 @@ You manage five servers: two in Europe, two in the US, and one for staging. You 
 
 | Server | Location | URL | Role |
 |--------|----------|-----|------|
-| EU-1 | Frankfurt | `https://eu1.dockerlab.example.com` | Primary |
-| EU-2 | Amsterdam | `https://eu2.dockerlab.example.com` | Remote |
-| US-1 | New York | `https://us1.dockerlab.example.com` | Remote |
-| US-2 | San Francisco | `https://us2.dockerlab.example.com` | Remote |
-| Staging | Frankfurt | `https://staging.dockerlab.example.com` | Remote |
+| EU-1 | Frankfurt | `https://eu1.example.com` | Primary |
+| EU-2 | Amsterdam | `https://eu2.example.com` | Remote |
+| US-1 | New York | `https://us1.example.com` | Remote |
+| US-2 | San Francisco | `https://us2.example.com` | Remote |
+| Staging | Frankfurt | `https://staging.example.com` | Remote |
 
 **Setup steps:**
 
@@ -325,7 +325,7 @@ When using a VPN, register instances using their private/VPN IP addresses instea
 
 ```text
 # Instead of public URL
-https://staging.dockerlab.example.com
+https://staging.example.com
 
 # Use VPN address
 https://10.0.0.5:8080
@@ -399,7 +399,7 @@ The instance data file has `0600` permissions (owner read/write only) and contai
   {
     "id": "a1b2c3d4",
     "name": "Staging Server",
-    "url": "https://staging.dockerlab.example.com",
+    "url": "https://staging.example.com",
     "description": "Pre-release testing environment",
     "created_at": "2026-01-21T10:30:00Z",
     "last_seen": "2026-01-21T11:45:00Z",
@@ -451,7 +451,7 @@ If a remote instance shows "unhealthy" or you see "Invalid instance token" error
 The `/api/health` endpoint requires authentication by design. If you test connectivity with `curl` from one server to another, you get a 401 response unless you include valid credentials. This is expected. The dashboard's internal health check sends the instance token automatically. For manual testing, use:
 
 ```bash
-$ curl -I https://remote.dockerlab.example.com/health \
+$ curl -I https://remote.example.com/health \
   -H "X-Instance-Token: your-shared-password"
 ```
 
@@ -481,4 +481,4 @@ $ docker compose logs dashboard | grep sync
 
 ## Next Steps
 
-With multi-instance management, you can see all your servers from one place. But seeing container status is just the beginning. In the [Observability chapter](./chapter-10-observability.md), you will learn how to add metrics, dashboards, and alerting to your Docker Lab deployment using Netdata, Uptime Kuma, Prometheus, and Grafana. Observability turns raw container data into actionable insights -- so you know not just what is running, but how well it is running.
+With multi-instance management, you can see all your servers from one place. But seeing container status is just the beginning. In the [Observability chapter](./observability.md), you will learn how to add metrics, dashboards, and alerting to your Docker Lab deployment using Netdata, Uptime Kuma, Prometheus, and Grafana. Observability turns raw container data into actionable insights -- so you know not just what is running, but how well it is running.

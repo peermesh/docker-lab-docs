@@ -539,7 +539,7 @@ Then start your services normally:
 docker compose up -d
 ```
 
-Docker Compose reads `COMPOSE_PROFILES` from `.env` and starts only the services assigned to those profiles, plus all foundation services (which have no profile and always run).
+Docker Compose reads `COMPOSE_PROFILES` from `.env` and starts only the services assigned to those profiles, plus the foundation stack (which has no profile and always runs).
 
 You can also activate profiles from the command line:
 
@@ -627,7 +627,7 @@ flowchart TB
     MinIO --> AppInt
 ```
 
-Foundation services are always running and connect to the `proxy-external` and `management` networks. Database profiles (PostgreSQL, MySQL, MongoDB) connect to the `db-internal` network, which has no external access. Application-level services (Redis, MinIO) connect to `app-internal`. This layered network isolation means that even if an application container is compromised, the attacker cannot reach databases on a different network.
+The foundation stack is always running and connects to the `proxy-external` and `management` networks. Database profiles (PostgreSQL, MySQL, MongoDB) connect to the `db-internal` network, which has no external access. Application-level services (Redis, MinIO) connect to `app-internal`. This layered network isolation means that even if an application container is compromised, the attacker cannot reach databases on a different network.
 
 ## Network Positioning of Supporting Tech
 
@@ -819,11 +819,11 @@ MySQL's performance schema consumes approximately 400 MB of memory by default. O
 ## Key Takeaways
 
 - Docker Lab uses two profile types: **resource profiles** (lite/core/full) control how much memory and CPU each service receives, and **supporting tech profiles** (postgresql/mysql/mongodb/redis/minio) activate the services you need.
-- Activate profiles through the `COMPOSE_PROFILES` environment variable in `.env`. Foundation services always run; profiles are additive.
+- Activate profiles through the `COMPOSE_PROFILES` environment variable in `.env`. The foundation stack always runs; profiles are additive.
 - Start with PostgreSQL if you are unsure which database to use. It handles relational data, JSON documents, and vector embeddings in a single engine.
 - Every database profile connects to the `db-internal` network, which is isolated from the internet. Applications must join this network to access databases.
 - Always set explicit memory cache sizes for databases running inside containers. Default auto-detection formulas use host RAM, not container limits, and will cause out-of-memory failures.
 
 ## Next Steps
 
-With your profiles configured and your databases running, the next priority is securing them. In [Chapter 6: Security and Hardening](./security-and-hardening.md), you will learn about Docker Lab's four-network security topology, the hardening overlay that applies defense-in-depth to every container, file-based secret management, and how the socket proxy protects the Docker engine from unauthorized access.
+With your profiles configured and your databases running, the next priority is securing them. In [the Security and Hardening chapter](./security.md), you will learn about Docker Lab's four-network security topology, the hardening overlay that applies defense-in-depth to every container, file-based secret management, and how the socket proxy protects the Docker engine from unauthorized access.

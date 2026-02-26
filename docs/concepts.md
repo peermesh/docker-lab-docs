@@ -93,7 +93,7 @@ This distinction is the most important mental model in Docker Lab:
 | Secrets infrastructure | Example applications |
 | Dashboard (Tier 4 service) | Monitoring (Prometheus, Grafana) |
 
-When you run `docker compose up -d` with no profiles activated, you get the "always running" column. Everything in the "optional" column starts only when you explicitly request it through profiles or compose file includes. This means a fresh Docker Lab deployment is lightweight -- the foundation services use approximately 90 MB of container memory at idle. You scale up by adding profiles, and each profile adds only the resources its services need.
+When you run `docker compose up -d` with no profiles activated, you get the "always running" column. Everything in the "optional" column starts only when you explicitly request it through profiles or compose file includes. This means a fresh Docker Lab deployment is lightweight -- the foundation stack uses approximately 90 MB of container memory at idle. You scale up by adding profiles, and each profile adds only the resources its services need.
 
 ## The Four-Network Topology
 
@@ -201,7 +201,7 @@ You activate profiles in your `.env` file:
 COMPOSE_PROFILES=postgresql,redis
 ```
 
-Then run `docker compose up -d`. Docker starts the foundation services (no profile) plus PostgreSQL and Redis (matching profiles). MySQL, MongoDB, MinIO, and everything else stays off.
+Then run `docker compose up -d`. Docker starts the foundation stack (no profile) plus PostgreSQL and Redis (matching profiles). MySQL, MongoDB, MinIO, and everything else stays off.
 
 ### The Composability Model
 
@@ -385,7 +385,7 @@ Here is a reference table of every key term used throughout this manual. Bookmar
 | **Socket proxy** | A security filter between containers and the Docker Engine API. It restricts which API calls a service can make, reducing the blast radius of a container compromise. |
 | **Reverse proxy** | Traefik -- the service that receives all incoming HTTP/HTTPS traffic and routes it to the correct container based on Docker labels. |
 | **Network (Docker Lab)** | One of four isolated Docker networks (`proxy-external`, `app-internal`, `db-internal`, `socket-proxy`) that control which containers can communicate. |
-| **Compose profile** | A Docker Compose feature that assigns services to named groups. Services start only when their profile is activated. Foundation services have no profile and always start. |
+| **Compose profile** | A Docker Compose feature that assigns services to named groups. Services start only when their profile is activated. The foundation stack has no profile and always starts. |
 | **Example** | A reference application deployment in Tier 3 that demonstrates how to compose the foundation and profiles into a working system. |
 | **Service (Tier 4)** | A custom application that integrates with the foundation's module system, event bus, and dashboard. |
 | **OpenTofu** | An open-source infrastructure-as-code tool that provisions servers, networks, and DNS records. Docker Lab runs on the infrastructure OpenTofu creates. |
