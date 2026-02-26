@@ -193,11 +193,11 @@ flowchart TB
     Docker["Docker Engine"]
     Dashboard["Dashboard"]
 
-    Internet -->|"HTTPS :443"| Traefik
-    Traefik -->|"Routes by domain"| Dashboard
-    Traefik -->|"Discovers services"| SocketProxy
-    SocketProxy -->|"Filtered read-only API"| Docker
-    Dashboard -->|"Reads container status"| SocketProxy
+    Internet -->|"HTTPS"| Traefik
+    Traefik --> Dashboard
+    Traefik --> SocketProxy
+    SocketProxy --> Docker
+    Dashboard --> SocketProxy
 ```
 
 Traefik receives all incoming HTTPS traffic and routes it to the correct service based on the domain name in the request. It discovers which services exist by querying the Docker engine through the socket proxy. The dashboard also reads container information through the socket proxy to display your system status.

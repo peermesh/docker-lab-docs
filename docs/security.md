@@ -31,22 +31,16 @@ The following diagram shows how these layers stack from the outermost perimeter 
 
 ```mermaid
 flowchart TB
-    L1["Layer 1: Network Perimeter"]
-    L2["Layer 2: Reverse Proxy"]
-    L3["Layer 3: Container Isolation"]
-    L4["Layer 4: Service Hardening"]
-    L5["Layer 5: Data Security"]
+    L1["L1: Network Perimeter"]
+    L2["L2: Reverse Proxy"]
+    L3["L3: Container Isolation"]
+    L4["L4: Service Hardening"]
+    L5["L5: Data Security"]
 
     L1 --> L2
     L2 --> L3
     L3 --> L4
     L4 --> L5
-
-    style L1 fill:#e74c3c,color:#fff
-    style L2 fill:#e67e22,color:#fff
-    style L3 fill:#f1c40f,color:#000
-    style L4 fill:#2ecc71,color:#fff
-    style L5 fill:#3498db,color:#fff
 ```
 
 - **Layer 1 (Network Perimeter)** controls which ports are exposed to the internet and segments internal traffic into isolated zones.
@@ -75,27 +69,27 @@ The following diagram shows how traffic flows between the four network zones:
 flowchart TB
     Internet["Internet"]
 
-    subgraph ProxyZone["proxy-external (Public Zone)"]
+    subgraph ProxyZone["proxy-external"]
         Traefik["Traefik"]
         Dashboard["Dashboard"]
     end
 
-    subgraph AppZone["app-internal (Application Zone)"]
-        Apps["Application Services"]
+    subgraph AppZone["app-internal"]
+        Apps["App Services"]
         Redis["Redis Cache"]
     end
 
-    subgraph DbZone["db-internal (Database Zone)"]
+    subgraph DbZone["db-internal"]
         Postgres["PostgreSQL"]
         Mysql["MySQL"]
         Mongo["MongoDB"]
     end
 
-    subgraph SocketZone["socket-proxy (Management Zone)"]
+    subgraph SocketZone["socket-proxy"]
         SocketProxy["Socket Proxy"]
     end
 
-    Internet -->|"Ports 80, 443"| Traefik
+    Internet -->|"80, 443"| Traefik
     Traefik --> Dashboard
     Traefik --> Apps
     Traefik --> SocketProxy
@@ -471,12 +465,12 @@ The following diagram shows how a secret moves from creation through encryption 
 
 ```mermaid
 flowchart TB
-    Generate["Generate secret value"]
+    Generate["Generate secret"]
     Encrypt["Encrypt with SOPS+age"]
-    Commit["Commit encrypted file to Git"]
+    Commit["Commit to Git"]
     Deploy["Deploy to VPS"]
-    Decrypt["Decrypt at deploy time"]
-    Mount["Mount as file in container"]
+    Decrypt["Decrypt at deploy"]
+    Mount["Mount in container"]
 
     Generate --> Encrypt
     Encrypt --> Commit

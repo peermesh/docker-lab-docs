@@ -33,9 +33,9 @@ flowchart TB
     LetsEncrypt["Let's Encrypt"]
 
     Reader -->|"HTTPS"| Traefik
-    Traefik -->|"Forward"| Ghost
-    Ghost -->|"db-internal"| MySQL
-    Traefik -->|"management"| SocketProxy
+    Traefik --> Ghost
+    Ghost --> MySQL
+    Traefik --> SocketProxy
     SocketProxy --> Docker
     Traefik -.->|"ACME"| LetsEncrypt
 ```
@@ -128,11 +128,11 @@ flowchart TB
     AIProvider["AI Provider APIs"]
 
     User -->|"HTTPS"| Traefik
-    Traefik -->|"Forward"| LibreChat
-    LibreChat -->|"OIDC"| Authelia
-    LibreChat -->|"Conversations"| MongoDB
-    LibreChat -->|"RAG Vectors"| PostgreSQL
-    LibreChat -->|"API calls"| AIProvider
+    Traefik --> LibreChat
+    LibreChat --> Authelia
+    LibreChat --> MongoDB
+    LibreChat --> PostgreSQL
+    LibreChat --> AIProvider
 ```
 
 Users authenticate through Authelia using OIDC before reaching LibreChat. Conversations are stored in MongoDB. When you enable RAG, document embeddings are stored in PostgreSQL with the pgvector extension, allowing LibreChat to search your uploaded documents for context before sending queries to the AI provider.
@@ -234,11 +234,11 @@ flowchart TB
     Redis["Redis 7"]
     SocketProxy["Socket Proxy"]
 
-    Developer -->|"localhost:443"| Traefik
-    Traefik -->|"proxy-external"| App
-    App -->|"db-internal"| PostgreSQL
-    App -->|"db-internal"| Redis
-    Traefik -->|"management"| SocketProxy
+    Developer --> Traefik
+    Traefik --> App
+    App --> PostgreSQL
+    App --> Redis
+    Traefik --> SocketProxy
 ```
 
 On your laptop, Traefik listens on `localhost` instead of a public IP. You use self-signed certificates or a local CA like `mkcert` for HTTPS during development. The network isolation and service discovery work identically to production.
@@ -363,10 +363,10 @@ flowchart TB
     ComposeUp --> App
     ComposeUp --> PostgreSQL
     CI --> Tests
-    Tests -->|"HTTP requests"| Traefik
+    Tests --> Traefik
     Traefik --> App
     App --> PostgreSQL
-    Tests -->|"After pass/fail"| ComposeDown
+    Tests --> ComposeDown
 ```
 
 The CI runner starts the entire stack, waits for health checks to pass, runs the test suite against the live infrastructure, and then tears everything down regardless of whether the tests passed or failed.
@@ -492,13 +492,13 @@ flowchart TB
     Authelia["Authelia SSO"]
 
     Internet -->|"HTTPS"| Traefik
-    Traefik -->|"blog.domain.com"| Ghost
-    Traefik -->|"chat.domain.com"| LibreChat
-    Traefik -->|"domain.com"| Landing
+    Traefik --> Ghost
+    Traefik --> LibreChat
+    Traefik --> Landing
     Ghost --> MySQL
     LibreChat --> MongoDB
     LibreChat --> PostgreSQL
-    LibreChat -->|"OIDC"| Authelia
+    LibreChat --> Authelia
 ```
 
 Traefik inspects the `Host` header of each incoming request and routes it to the correct application container. Ghost reaches MySQL on the `db-internal` network. LibreChat reaches both MongoDB and PostgreSQL on the same isolated network. Authelia provides SSO for LibreChat. The landing page is a static site with no database dependency.

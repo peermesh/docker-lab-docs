@@ -222,8 +222,8 @@ flowchart TB
 
     You -->|"HTTPS"| PrimaryDash
     PrimaryDash --> PrimaryProxy --> PrimaryDocker
-    PrimaryDash -->|"HTTPS + X-Instance-Token"| DashA
-    PrimaryDash -->|"HTTPS + X-Instance-Token"| DashB
+    PrimaryDash -->|"HTTPS"| DashA
+    PrimaryDash -->|"HTTPS"| DashB
     PrimaryDash --- Registry
     DashA --> ProxyA --> DockerA
     DashB --> ProxyB --> DockerB

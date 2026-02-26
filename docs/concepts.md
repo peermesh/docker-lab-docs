@@ -27,10 +27,10 @@ The following diagram shows these four tiers and how they depend on each other:
 
 ```mermaid
 flowchart TB
-    Tier4["Tier 4: Services -- Your custom applications"]
-    Tier3["Tier 3: Examples -- Reference applications"]
-    Tier2["Tier 2: Profiles -- Databases, caches, storage"]
-    Tier1["Tier 1: Foundation -- Traefik, socket proxy, networks, secrets"]
+    Tier4["Tier 4: Services"]
+    Tier3["Tier 3: Examples"]
+    Tier2["Tier 2: Profiles"]
+    Tier1["Tier 1: Foundation"]
 
     Tier4 --> Tier3
     Tier3 --> Tier2
@@ -131,9 +131,9 @@ flowchart TB
     end
 
     Internet --> Traefik
-    Traefik -->|"proxy-external"| App
-    App -->|"db-internal"| Db
-    Traefik -.->|"discovery"| SocketProxy
+    Traefik --> App
+    App --> Db
+    Traefik -.-> SocketProxy
     SocketProxy -.-> DockerEngine
 ```
 
@@ -209,10 +209,10 @@ The following diagram shows how the four tiers compose together:
 
 ```mermaid
 flowchart LR
-    Foundation["Foundation -- always on"]
-    Profiles["Profiles -- pick what you need"]
-    Examples["Examples -- reference apps"]
-    Overlays["Overlays -- environment tweaks"]
+    Foundation["Foundation"]
+    Profiles["Profiles"]
+    Examples["Examples"]
+    Overlays["Overlays"]
 
     Foundation --> Profiles
     Profiles --> Examples

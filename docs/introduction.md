@@ -69,16 +69,12 @@ The following diagram shows how Docker Lab fits into the larger picture:
 
 ```mermaid
 flowchart TB
-    PeerMesh["PeerMesh Core: Decentralized Infrastructure Platform"]
-    DockerLab["Docker Lab: Production Docker Compose Foundation"]
-    YourApps["Your Applications: Built on the Foundation"]
+    PeerMesh["PeerMesh Core"]
+    DockerLab["Docker Lab"]
+    YourApps["Your Applications"]
 
     PeerMesh --> DockerLab
     DockerLab --> YourApps
-
-    style PeerMesh fill:#f0f4ff,stroke:#4a6fa5,stroke-width:2px
-    style DockerLab fill:#e8f5e9,stroke:#4a8c5c,stroke-width:2px
-    style YourApps fill:#fff8e1,stroke:#c49a2e,stroke-width:2px
 ```
 
 **PeerMesh Core** is the long-term vision: a platform for decentralized infrastructure that enables peer-to-peer service discovery, federation, and data sovereignty. It is under active development and not yet ready for public use.
@@ -97,7 +93,7 @@ The following diagram illustrates the two layers:
 
 ```mermaid
 flowchart TB
-    subgraph InfraLayer["Layer 1: Infrastructure Provisioning"]
+    subgraph InfraLayer["Layer 1: Infrastructure"]
         OpenTofu["OpenTofu"]
         VPS["VPS Server"]
         DNS["DNS Records"]
@@ -107,7 +103,7 @@ flowchart TB
         OpenTofu --> Firewall
     end
 
-    subgraph RuntimeLayer["Layer 2: Runtime Operations"]
+    subgraph RuntimeLayer["Layer 2: Runtime"]
         Foundation["Foundation Stack"]
         Profiles["Database Profiles"]
         Apps["Your Applications"]
@@ -116,9 +112,6 @@ flowchart TB
     end
 
     InfraLayer --> RuntimeLayer
-
-    style InfraLayer fill:#f0f4ff,stroke:#4a6fa5,stroke-width:2px
-    style RuntimeLayer fill:#e8f5e9,stroke:#4a8c5c,stroke-width:2px
 ```
 
 **Layer 1: Infrastructure Provisioning** uses OpenTofu (the open-source Terraform fork) to create your server, configure DNS records, and set up firewall rules through your hosting provider's API. This layer answers the question "where does my infrastructure live?"

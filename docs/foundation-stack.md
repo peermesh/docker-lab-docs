@@ -19,12 +19,12 @@ flowchart TB
     Dashboard["Dashboard"]
     Browser["Your Browser"]
 
-    Internet -->|"HTTP/HTTPS on ports 80, 443"| Traefik
-    Browser -->|"https://dockerlab.example.com"| Traefik
-    Traefik -->|"routes traffic"| Dashboard
-    Traefik -->|"discovers services via TCP :2375"| SocketProxy
-    SocketProxy -->|"filtered read-only API"| Docker
-    Dashboard -->|"reads container stats via TCP :2375"| SocketProxy
+    Internet -->|"HTTPS"| Traefik
+    Browser -->|"HTTPS"| Traefik
+    Traefik --> Dashboard
+    Traefik --> SocketProxy
+    SocketProxy --> Docker
+    Dashboard --> SocketProxy
 ```
 
 Traefik sits at the front door, accepting all incoming HTTP and HTTPS traffic. It decides which backend service should handle each request based on domain names and routing rules. To discover those backend services, Traefik queries the Docker engine -- but it never touches the Docker socket directly. Instead, it goes through the socket proxy, which filters every API call and blocks anything dangerous. The dashboard also connects through the socket proxy to read container status and resource metrics, giving you a real-time view of your entire deployment.
@@ -52,16 +52,13 @@ flowchart LR
     Proxy["Socket Proxy"]
     DockerAPI["Docker Engine API"]
 
-    Traefik -->|"GET /containers"| Proxy
-    Dashboard -->|"GET /containers"| Proxy
-    Traefik -->|"GET /networks"| Proxy
+    Traefik -->|"GET"| Proxy
+    Dashboard -->|"GET"| Proxy
 
-    Proxy -->|"Allowed: read containers, networks, images, system info"| DockerAPI
+    Proxy -->|"Read-only"| DockerAPI
 
-    Blocked["Blocked Requests: POST, EXEC, DELETE, BUILD, COMMIT"]
-    Proxy -.-x|"Denied"| Blocked
-
-    style Blocked fill:#f9d0d0,stroke:#d44,color:#900
+    Blocked{{"POST, EXEC, DELETE"}}
+    Proxy -.-x Blocked
 ```
 
 When Traefik sends a `GET /containers` request, the proxy passes it through to the Docker engine. When anything sends a `POST` request to create or modify a container, the proxy blocks it. The result: if Traefik is ever compromised, the attacker gets a read-only view of your containers -- not the master key to your host.
@@ -208,22 +205,22 @@ The following diagram shows how Traefik processes an incoming request:
 ```mermaid
 flowchart TB
     Request["Incoming Request"]
-    Entrypoint["Entrypoint: port 80 or 443?"]
+    Entrypoint["Port 80 or 443?"]
     Redirect["Redirect HTTP to HTTPS"]
     MatchRouter["Match Router Rules"]
     HostRule["Host matches a router?"]
     Middleware["Apply Middlewares"]
-    Backend["Forward to Backend Service"]
+    Backend["Backend Service"]
     NotFound["Return 404"]
 
     Request --> Entrypoint
-    Entrypoint -->|"Port 80 HTTP"| Redirect
-    Redirect -->|"301 to HTTPS"| Request
-    Entrypoint -->|"Port 443 HTTPS"| MatchRouter
+    Entrypoint -->|"Port 80"| Redirect
+    Redirect -->|"301"| Request
+    Entrypoint -->|"Port 443"| MatchRouter
     MatchRouter --> HostRule
     HostRule -->|"Yes"| Middleware
     HostRule -->|"No"| NotFound
-    Middleware -->|"Rate limit, headers, auth"| Backend
+    Middleware --> Backend
 ```
 
 Every request first hits an entrypoint. Docker Lab configures three entrypoints: `web` on port 80, `websecure` on port 443, and `matrix-fed` on port 8448 (for Matrix federation). All HTTP traffic on port 80 is automatically redirected to HTTPS on port 443. Once a request arrives on the secure entrypoint, Traefik checks its routing table for a matching `Host()` rule, applies any configured middlewares (rate limiting, security headers, authentication), and forwards the request to the backend container.

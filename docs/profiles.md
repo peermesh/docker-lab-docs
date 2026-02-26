@@ -141,19 +141,19 @@ The following diagram shows how to choose a database profile based on your appli
 
 ```mermaid
 flowchart TB
-    Start["What does your application need?"]
-    SQL["Relational data or SQL?"]
-    Vector["Vector search or AI embeddings?"]
-    CMS["Ghost CMS or MySQL-only app?"]
-    Documents["Flexible document schemas?"]
-    Cache["Fast caching or sessions?"]
-    Files["File storage or S3 API?"]
+    Start["What do you need?"]
+    SQL["SQL or relational?"]
+    Vector["Vector search?"]
+    CMS["MySQL-only app?"]
+    Documents["Document schemas?"]
+    Cache["Caching or sessions?"]
+    Files["File or S3 storage?"]
 
-    PG["Use PostgreSQL profile"]
-    MY["Use MySQL profile"]
-    MO["Use MongoDB profile"]
-    RE["Use Redis profile"]
-    MI["Use MinIO profile"]
+    PG["PostgreSQL"]
+    MY["MySQL"]
+    MO["MongoDB"]
+    RE["Redis"]
+    MI["MinIO"]
 
     Start --> SQL
     SQL -->|Yes| Vector
@@ -596,7 +596,7 @@ The following diagram shows how profiles activate services and connect them to t
 
 ```mermaid
 flowchart TB
-    subgraph Foundation["Foundation (always running)"]
+    subgraph Foundation["Foundation"]
         Traefik["Traefik"]
         SocketProxy["Socket Proxy"]
         Dashboard["Dashboard"]

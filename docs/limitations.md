@@ -20,19 +20,19 @@ The following diagram shows where Docker Lab fits and where its boundaries lie:
 flowchart TB
     subgraph InScope["Docker Lab Scope"]
         Foundation["Foundation Stack"]
-        ReverseProxy["Traefik Reverse Proxy"]
-        TLS["Automatic TLS Certificates"]
+        ReverseProxy["Traefik"]
+        TLS["Automatic TLS"]
         Profiles["Composable Profiles"]
-        Secrets["Docker Secrets Management"]
+        Secrets["Secrets Management"]
         Hardening["Security Hardening"]
-        Dashboard["Operations Dashboard"]
+        Dashboard["Dashboard"]
     end
 
-    subgraph OutOfScope["Outside Docker Lab Scope"]
+    subgraph OutOfScope["Outside Scope"]
         MultiHost["Multi-Host Clustering"]
-        Kubernetes["Kubernetes Integration"]
+        Kubernetes["Kubernetes"]
         AutoScale["Auto-Scaling"]
-        ManagedDB["Managed Database Services"]
+        ManagedDB["Managed DB Services"]
         CICD["CI/CD Pipelines"]
         AppCode["Your Application Code"]
     end
@@ -43,9 +43,6 @@ flowchart TB
     Foundation --> Secrets
     Foundation --> Hardening
     Foundation --> Dashboard
-
-    style InScope fill:#e8f5e9,stroke:#4caf50,stroke-width:2px
-    style OutOfScope fill:#fce4ec,stroke:#e57373,stroke-width:2px
 ```
 
 Docker Lab provides the runtime foundation -- the platform your applications run on. It does not replace your application, your CI/CD pipeline, or your cloud provider's managed services. You bring your own application containers and deploy them onto the foundation that Docker Lab provides.

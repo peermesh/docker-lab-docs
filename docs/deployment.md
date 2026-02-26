@@ -20,32 +20,32 @@ The following diagram shows how these three layers relate:
 
 ```mermaid
 flowchart TB
-    OpenTofu["OpenTofu: Infrastructure Provisioning"]
-    Compose["Docker Compose: Runtime Orchestration"]
-    DeployOps["Webhook and Scripts: Deployment Operations"]
+    OpenTofu["OpenTofu"]
+    Compose["Docker Compose"]
+    DeployOps["Webhook + Scripts"]
     VPS["Provisioned VPS"]
     Foundation["Foundation Stack"]
     Modules["Modules and Apps"]
 
-    subgraph InfraLayer["Layer 1: Infrastructure Provisioning"]
+    subgraph InfraLayer["Layer 1: Infrastructure"]
         OpenTofu
     end
 
-    subgraph RuntimeLayer["Layer 2: Runtime Orchestration"]
+    subgraph RuntimeLayer["Layer 2: Runtime"]
         Compose
         Foundation
         Modules
     end
 
-    subgraph OpsLayer["Layer 3: Deployment Operations"]
+    subgraph OpsLayer["Layer 3: Operations"]
         DeployOps
     end
 
-    OpenTofu -->|"Creates and configures"| VPS
-    VPS -->|"Hosts"| Compose
+    OpenTofu --> VPS
+    VPS --> Compose
     Compose --> Foundation
     Compose --> Modules
-    OpsLayer -->|"Triggers and validates"| RuntimeLayer
+    OpsLayer --> RuntimeLayer
 ```
 
 **Layer 1 -- OpenTofu (infrastructure provisioning)** handles everything about the server itself: creating the VPS through a provider API, configuring firewalls, setting up DNS records, and managing network rules. Think of OpenTofu as the construction crew that builds and wires the building.
@@ -428,10 +428,10 @@ flowchart LR
     ProdGate["Production Gate"]
     Production["Production"]
 
-    Dev -->|"Passes preflight"| StagingGate
-    StagingGate -->|"Evidence bundle"| Staging
-    Staging -->|"Passes all gates"| ProdGate
-    ProdGate -->|"Evidence bundle"| Production
+    Dev --> StagingGate
+    StagingGate --> Staging
+    Staging --> ProdGate
+    ProdGate --> Production
 ```
 
 Each promotion produces an evidence bundle -- a directory of artifacts that prove every gate passed. If an auditor asks "why did you deploy this version?", the evidence bundle answers the question.
@@ -528,8 +528,8 @@ The following diagram shows the structure of an evidence bundle:
 
 ```mermaid
 flowchart TB
-    EvidenceRoot["Evidence Root: /tmp/pmdl-deploy-evidence"]
-    RunDir["Run Directory: prod-20260225T120000Z"]
+    EvidenceRoot["Evidence Root"]
+    RunDir["Run Directory"]
     Manifest["manifest.env"]
     Gates["gates.tsv"]
     Preflight["Preflight Artifacts"]
@@ -543,13 +543,13 @@ flowchart TB
     RunDir --> Rollback
     RunDir --> Release
 
-    Preflight --> ProfileMatrix["preflight-profile-matrix.txt"]
-    Preflight --> SecretsLog["preflight-secrets-validate.log"]
-    Preflight --> ComposeLog["preflight-compose-config.log"]
+    Preflight --> ProfileMatrix["profile-matrix.txt"]
+    Preflight --> SecretsLog["secrets-validate.log"]
+    Preflight --> ComposeLog["compose-config.log"]
 
     Rollback --> Pointer["rollback-pointer.env"]
     Rollback --> Plan["rollback-plan.md"]
-    Rollback --> Safety["restart-safety-policy.log"]
+    Rollback --> Safety["restart-safety.log"]
 ```
 
 Each run directory contains these artifacts:
@@ -611,15 +611,15 @@ The following diagram shows how webhook deployment flows:
 flowchart LR
     Push["git push"]
     GitHub["GitHub Webhook"]
-    Traefik["Traefik TLS Termination"]
+    Traefik["Traefik"]
     Webhook["Webhook Container"]
     Deploy["deploy.sh"]
     Evidence["Evidence Bundle"]
 
     Push --> GitHub
-    GitHub -->|"HTTPS POST with HMAC"| Traefik
+    GitHub -->|"HTTPS POST"| Traefik
     Traefik --> Webhook
-    Webhook -->|"Validates signature"| Deploy
+    Webhook --> Deploy
     Deploy --> Evidence
 ```
 

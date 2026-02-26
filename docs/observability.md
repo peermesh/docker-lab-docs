@@ -31,21 +31,21 @@ The following diagram shows how the two tiers compare:
 ```mermaid
 flowchart TB
     subgraph LiteTier["Observability Lite"]
-        Netdata["Netdata - System and container metrics"]
-        UptimeKuma["Uptime Kuma - Endpoint monitoring"]
+        Netdata["Netdata"]
+        UptimeKuma["Uptime Kuma"]
     end
 
-    subgraph EnterpriseTier["Enterprise Observability"]
-        Prometheus["Prometheus - Time-series metrics"]
-        Grafana["Grafana - Dashboards and visualization"]
-        Loki["Loki - Log aggregation"]
+    subgraph EnterpriseTier["Enterprise"]
+        Prometheus["Prometheus"]
+        Grafana["Grafana"]
+        Loki["Loki"]
     end
 
     Scorecard["Promotion Scorecard"]
 
-    LiteTier -- "Score >= 50" --> Scorecard
-    Scorecard -- "PROMOTE_FULL_STACK" --> EnterpriseTier
-    Scorecard -- "HOLD" --> LiteTier
+    LiteTier --> Scorecard
+    Scorecard -->|"PROMOTE"| EnterpriseTier
+    Scorecard -->|"HOLD"| LiteTier
 ```
 
 The scorecard sits between the two tiers. It evaluates real operational signals -- not opinions -- and tells you when the lite tier is no longer sufficient.
@@ -278,9 +278,9 @@ flowchart LR
         Grafana["Grafana Dashboards"]
     end
 
-    DockerDaemon -- "metrics /metrics" --> Prometheus
-    TraefikSvc -- "metrics :8080/metrics" --> Prometheus
-    Containers -- "logs via Docker driver" --> Loki
+    DockerDaemon --> Prometheus
+    TraefikSvc --> Prometheus
+    Containers --> Loki
     Prometheus -- "datasource" --> Grafana
     Loki -- "datasource" --> Grafana
 ```
@@ -441,18 +441,18 @@ flowchart TB
     Wave2["Wave-2 Metrics Summary"]
     Incidents["Manual Incident Count"]
 
-    Wave1 --> T1["T1: Consecutive ADD_HOST waves - 25pts"]
-    Wave1 --> T2["T2: Latency + error co-breach - 30pts"]
+    Wave1 --> T1["T1: ADD_HOST waves"]
+    Wave1 --> T2["T2: Latency + errors"]
     Wave2 --> T2
-    Wave2 --> T3["T3: Unknown critical dimensions - 20pts"]
-    Incidents --> T4["T4: Incident rate exceeded - 25pts"]
+    Wave2 --> T3["T3: Unknown dimensions"]
+    Incidents --> T4["T4: Incident rate"]
 
     T1 --> Total["Total Score 0-100"]
     T2 --> Total
     T3 --> Total
     T4 --> Total
 
-    Total -- "Score >= 50" --> Promote["PROMOTE_FULL_STACK"]
+    Total -- ">= 50" --> Promote["PROMOTE"]
     Total -- "Score 25-49" --> Review["REVIEW"]
     Total -- "Score < 25" --> Hold["HOLD"]
 ```

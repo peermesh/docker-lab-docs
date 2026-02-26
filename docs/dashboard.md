@@ -58,26 +58,26 @@ flowchart TB
     HTMX["HTMX"]
     AlpineJS["Alpine.js"]
     Tailwind["Tailwind CSS"]
-    GoServer["Go Dashboard Server"]
-    RestAPI["REST API /api/*"]
-    SSEEndpoint["SSE Events /api/events"]
-    StaticFiles["Static File Server"]
+    GoServer["Go Server"]
+    RestAPI["REST API"]
+    SSEEndpoint["SSE Events"]
+    StaticFiles["Static Files"]
     DockerClient["Docker Client"]
-    SocketProxy["Socket Proxy :2375"]
+    SocketProxy["Socket Proxy"]
     DockerEngine["Docker Engine"]
 
     Browser --> HTMX
     Browser --> AlpineJS
     Browser --> Tailwind
-    HTMX -->|"HTTP requests"| GoServer
-    AlpineJS -->|"HTTP requests"| GoServer
+    HTMX --> GoServer
+    AlpineJS --> GoServer
     GoServer --> RestAPI
     GoServer --> SSEEndpoint
     GoServer --> StaticFiles
     RestAPI --> DockerClient
     SSEEndpoint --> DockerClient
-    DockerClient -->|"Filtered API calls"| SocketProxy
-    SocketProxy -->|"Read-only access"| DockerEngine
+    DockerClient --> SocketProxy
+    SocketProxy --> DockerEngine
 ```
 
 The browser communicates with the Go server over HTTP. HTMX handles page navigation and form submissions by making requests and swapping HTML fragments. Alpine.js adds client-side interactivity for things like dropdown menus and modals. The Go server queries the Docker engine through the socket proxy -- never directly -- which means the dashboard only has read access to the Docker API.

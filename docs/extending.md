@@ -18,10 +18,10 @@ The following diagram shows how the four tiers relate to each other:
 
 ```mermaid
 flowchart TB
-    Tier4["Tier 4: Services -- Custom integrations with module manifests"]
-    Tier3["Tier 3: Examples -- Application deployments"]
-    Tier2["Tier 2: Profiles -- Supporting infrastructure like databases and caches"]
-    Tier1["Tier 1: Foundation -- Traefik, socket proxy, networks, secrets"]
+    Tier4["Tier 4: Services"]
+    Tier3["Tier 3: Examples"]
+    Tier2["Tier 2: Profiles"]
+    Tier1["Tier 1: Foundation"]
 
     Tier4 --> Tier3
     Tier3 --> Tier2
@@ -172,17 +172,17 @@ The following diagram shows how your custom service connects to the foundation s
 ```mermaid
 flowchart TB
     Internet["Internet"]
-    Traefik["Traefik Reverse Proxy"]
+    Traefik["Traefik"]
     TeamNotes["TeamNotes App"]
     Postgres["PostgreSQL"]
     SocketProxy["Socket Proxy"]
     Docker["Docker Engine"]
 
-    Internet -->|"HTTPS request"| Traefik
-    Traefik -->|"proxy-external network"| TeamNotes
-    TeamNotes -->|"db-internal network"| Postgres
-    Traefik -->|"management network"| SocketProxy
-    SocketProxy -->|"Docker socket"| Docker
+    Internet -->|"HTTPS"| Traefik
+    Traefik --> TeamNotes
+    TeamNotes --> Postgres
+    Traefik --> SocketProxy
+    SocketProxy --> Docker
 ```
 
 Your service connects to the foundation through three mechanisms:
@@ -368,13 +368,13 @@ The following diagram shows how compose files extend and override each other:
 
 ```mermaid
 flowchart TB
-    Base["docker-compose.yml -- Foundation services, networks, secrets"]
-    Profile["profiles/postgresql/docker-compose.postgresql.yml -- Database service"]
-    App["examples/teamnotes/docker-compose.teamnotes.yml -- Application service"]
+    Base["docker-compose.yml"]
+    Profile["postgresql profile"]
+    App["teamnotes app"]
 
-    Base -->|"provides networks"| Profile
-    Base -->|"provides networks"| App
-    Profile -->|"provides database"| App
+    Base --> Profile
+    Base --> App
+    Profile --> App
 ```
 
 When you run `docker compose -f` with multiple files, Docker merges them left to right. The foundation file defines the networks, the profile file adds a database on those networks, and the application file adds your service on the same networks with a dependency on the database.
