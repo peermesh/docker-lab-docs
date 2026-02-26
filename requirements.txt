@@ -1,0 +1,3 @@
+mkdocs-material>=9.5
+mkdocs-excalidraw>=0.6.0
+mike

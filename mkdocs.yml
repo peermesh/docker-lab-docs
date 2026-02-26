@@ -1,0 +1,105 @@
+site_name: Docker Lab Documentation
+site_url: https://peermesh.github.io/docker-lab-docs/
+site_description: "Production-grade Docker Compose infrastructure — learn, deploy, operate."
+site_author: PeerMesh
+repo_url: https://github.com/peermesh/docker-lab-docs
+repo_name: peermesh/docker-lab-docs
+edit_uri: edit/main/docs/
+
+copyright: Copyright &copy; 2026 PeerMesh
+
+theme:
+  name: material
+  custom_dir: overrides
+  logo: assets/logo-placeholder.svg
+  favicon: assets/favicon-placeholder.svg
+  palette:
+    - scheme: default
+      primary: indigo
+      accent: deep purple
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - scheme: slate
+      primary: indigo
+      accent: deep purple
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  features:
+    - navigation.instant
+    - navigation.tracking
+    - navigation.sections
+    - navigation.expand
+    - navigation.top
+    - navigation.indexes
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+    - content.tabs.link
+    - toc.follow
+  icon:
+    repo: fontawesome/brands/github
+
+nav:
+  - Home: index.md
+  - Getting Started:
+      - Introduction: introduction.md
+      - Concepts: concepts.md
+      - Quick Start: quick-start.md
+  - Core Infrastructure:
+      - Foundation Stack: foundation-stack.md
+      - Profiles & Supporting Tech: profiles.md
+  - Operations:
+      - Security & Hardening: security.md
+      - Deployment: deployment.md
+  - Features:
+      - Dashboard: dashboard.md
+      - Multi-Instance Management: multi-instance.md
+      - Observability: observability.md
+  - Advanced:
+      - Extending Docker Lab: extending.md
+      - Use Cases: use-cases.md
+  - Reference:
+      - Limitations & Roadmap: limitations.md
+      - Reference: reference.md
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - md_in_html
+  - def_list
+  - footnotes
+  - tables
+  - toc:
+      permalink: true
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.details
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.critic
+  - pymdownx.keys
+  - pymdownx.mark
+
+plugins:
+  - search
+  - excalidraw
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/peermesh
+      name: PeerMesh on GitHub
+
+extra_css:
+  - assets/stylesheets/extra.css

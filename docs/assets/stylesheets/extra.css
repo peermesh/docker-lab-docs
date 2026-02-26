@@ -1,0 +1,55 @@
+/* PeerMesh Docker Lab - Custom Styles */
+
+/* Brand color overrides */
+:root {
+  --md-primary-fg-color: #3949ab;
+  --md-primary-fg-color--light: #5c6bc0;
+  --md-primary-fg-color--dark: #283593;
+  --md-accent-fg-color: #7c4dff;
+}
+
+[data-md-color-scheme="slate"] {
+  --md-primary-fg-color: #5c6bc0;
+  --md-primary-fg-color--light: #7986cb;
+  --md-primary-fg-color--dark: #3949ab;
+  --md-accent-fg-color: #b388ff;
+}
+
+/* Typography: improve readability for long-form docs */
+.md-typeset {
+  line-height: 1.7;
+}
+
+.md-typeset h1 {
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+/* Admonition styles for curriculum context */
+.md-typeset .admonition.curriculum,
+.md-typeset details.curriculum {
+  border-color: #7c4dff;
+}
+
+.md-typeset .curriculum > .admonition-title,
+.md-typeset .curriculum > summary {
+  background-color: rgba(124, 77, 255, 0.1);
+}
+
+/* Code block enhancements */
+.md-typeset code {
+  font-size: 0.85em;
+}
+
+/* Navigation: subtle section separators */
+.md-nav__item--section > .md-nav__link {
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.65rem;
+  letter-spacing: 0.05em;
+}
+
+/* Footer branding */
+.peermesh-footer {
+  border-top: 2px solid var(--md-primary-fg-color);
+}

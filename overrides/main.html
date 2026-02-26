@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block extrahead %}
+  <meta name="author" content="PeerMesh">
+  <meta name="keywords" content="docker, compose, infrastructure, VPS, deployment, traefik, reverse proxy">
+{% endblock %}
+
+{% block footer %}
+  {{ super() }}
+  <script>
+    // Add PeerMesh branding class to footer
+    document.addEventListener("DOMContentLoaded", function() {
+      var footer = document.querySelector(".md-footer-meta");
+      if (footer) footer.classList.add("peermesh-footer");
+    });
+  </script>
+{% endblock %}
